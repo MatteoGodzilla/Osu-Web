@@ -1,50 +1,40 @@
-class Nota {
-	constructor(x, y, milli) {
-		this.x = x
-		this.y = y
-		this.milli = milli
-		this.notesize = 75
-		this.hintsize = 100
-		this.speed = 60
-	}
-	show(t) {
-		push()
-		stroke(0)
-		fill(255)
-		if (this.milli - this.speed <= t && t <= this.milli) {
-			let localt = map(t, this.milli - this.speed, this.milli, 0, this.hintsize)
-			push()
-			noFill()
-			stroke(0)
-			ellipse(this.x, this.y, this.notesize + this.hintsize - localt)
-			pop()
-
-		}
-		if (this.milli - this.speed-this.speed <= t) {
-			ellipse(this.x, this.y, this.notesize, this.notesize)
-		}
-		pop()
-	}
-}
-
-let nota = new Nota(512, 384, 200)
+let nota1 = new Nota(450, 384, 3000)
+let nota2 = new Nota(550, 384, 3500)
+let notes = [];
 let time
+let starting
 
 function setup() {
+	starting = millis()
 	c = createCanvas(1024, 768)
-	x = (windowWidth - width) / 2
-	y = (windowHeight - height) / 2
-	c.position(x, y)
-	time = 0
-
+	windowResized()
+	notes.push(nota1)
+	notes.push(nota2)
 }
 
 function draw() {
+	time = millis() - starting
 	background(51)
-	nota.show(time)
+	for (n of notes) {
+		n.show(time)
+		if (n.milli <= time - 250)
+			notes.splice(notes.indexOf(n), 1)
+	}
 	fill(255, 255, 255, 100)
-	ellipse(mouseX, mouseY, 50, 50)
-	text(Math.floor(time / 60), 0, height - 5)
-	time++
-	if (time > 1000) noLoop()
+	ellipse(mouseX, mouseY, 25, 25)
+	if (time > 12000) noLoop()
+}
+
+function windowResized() {
+	x = (windowWidth - width) / 2
+	y = (windowHeight - height) / 2
+	c.position(x, y)
+}
+
+function mouseClicked() {
+	for (n of notes) {
+		if (dist(n.x, n.y, mouseX, mouseY) <= n.notesize / 2) {
+			n.click(time)
+		}
+	}
 }
