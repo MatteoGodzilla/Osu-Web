@@ -34,7 +34,8 @@ function windowResized() {
 function mouseClicked() {
 	for (n of notes) {
 		if (dist(n.x, n.y, mouseX, mouseY) <= n.notesize / 2) {
-			n.click(time)
+			let text = n.click(time)
+			console.log(text)
 		}
 	}
 }

@@ -32,11 +32,13 @@ class Nota {
         let diff = abs(time - this.milli)
         if (diff <= 80) {
             this.color = [0, 255, 0, 100] // perfect
+            return "Perfect :"+diff;
         } else if (diff <= 160) {
             this.color = [0, 0, 255, 100] // good
+            return "Good :"+diff;
         } else {
             this.color = [255, 0, 0, 100] // miss
+            return "Miss :"+diff;
         }
-
     }
 }
