@@ -24,21 +24,29 @@ class Nota {
         if (this.milli - this.speed <= t) {
             ellipse(this.x, this.y, this.notesize, this.notesize)
         }
-        if (this.milli <= t - 100 && !this.clicked) this.color = [255, 0, 0]
         pop()
     }
     click(time) {
-        this.clicked = true
-        let diff = abs(time - this.milli)
+        this.clicked = true;
+        let diff = abs(time - this.milli);
+        let test;
         if (diff <= 80) {
             this.color = [0, 255, 0, 100] // perfect
-            return "Perfect :"+diff;
-        } else if (diff <= 160) {
+            test = "Perfect :" + diff;
+        } else if (diff <= 240) {
             this.color = [0, 0, 255, 100] // good
-            return "Good :"+diff;
+            test = "Good :" + diff;
         } else {
-            this.color = [255, 0, 0, 100] // miss
-            return "Miss :"+diff;
+            test = "Miss :" + diff;
         }
+        return test;
+    }
+    Remove(time) {
+        if (this.milli <= time - 100 && !this.clicked) {
+            this.color = [255, 0, 0];
+            return true;
+        }else if(this.clicked){
+            return true;
+        }else return false;
     }
 }
