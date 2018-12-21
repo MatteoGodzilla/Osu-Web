@@ -16,11 +16,10 @@ function setup() {
 function draw() {
 	time = millis() - starting
 	background(51)
-	for (let i = 0; i < notes.length;i++){
+	for (let i = 0; i < notes.length; i++) {
 		notes[i].show(time);
-		if(notes[i].Remove(time)===true){
-			notes.splice(i,1)
-			console.log("eliminato")
+		if (notes[i].toRemove === true && notes[i].milli <= time) {
+			notes.splice(i, 1)
 		}
 	}
 	fill(255, 255, 255, 100)
